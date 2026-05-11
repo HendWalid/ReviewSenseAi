@@ -21,7 +21,17 @@ nltk.download('omw-1.4', quiet=True)
 # =========================
 # NLP Tools Initialization
 # =========================
-stop_words = set(stopwords.words('english'))
+custom_stopwords = {
+    'film', 'movie', 'movies', 'films',
+    'watch', 'watching', 'watched',
+    'show', 'series', 'episode',
+    'good', 'bad', 'great', 'really',
+    'make', 'made', 'way', 'even',
+    'one', 'two', 'first', 'second',
+    'see', 'seen', 'time', 'story',
+    'think', 'know', 'get', 'much'
+}
+stop_words = set(stopwords.words('english')).union(custom_stopwords)
 stemmer = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
 
