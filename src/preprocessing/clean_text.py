@@ -27,11 +27,18 @@ lemmatizer = WordNetLemmatizer()
 
 
 def clean_text(text: str) -> str:
+
     if not isinstance(text, str):
         return ""
 
     # lowercase
     text = text.lower()
+
+    # remove html tags
+    text = re.sub(r'<.*?>', '', text)
+
+    # remove URLs
+    text = re.sub(r'http\S+|www\S+', '', text)
 
     # remove emojis
     emoji_pattern = re.compile(
@@ -63,7 +70,10 @@ def clean_text(text: str) -> str:
     # remove stopwords
     tokens = [w for w in tokens if w not in stop_words]
 
-    # stemming + lemmatization
-    tokens = [lemmatizer.lemmatize(stemmer.stem(w)) for w in tokens]
+    # remove short words
+    tokens = [w for w in tokens if len(w) > 2]
+
+    # lemmatization
+    tokens = [lemmatizer.lemmatize(w) for w in tokens]
 
     return " ".join(tokens)
